@@ -1,6 +1,4 @@
-import { Helpers } from '../utils/helpers.js';
-
-export class DataTable {
+class DataTable {
     constructor(app) {
         this.app = app;
         this.tbody = document.getElementById('clientsTableBody');

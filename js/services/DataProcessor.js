@@ -1,4 +1,4 @@
-export class DataProcessor {
+class DataProcessor {
     static processImportedData(data, phoneDuplicates) {
         return data.map((item, index) => {
             const city = this.extractCity(item);
