@@ -1,8 +1,3 @@
-import { Helpers } from './utils/helpers.js';
-import { StorageManager } from './utils/storage.js';
-import { ClientCard } from './components/ClientCard.js';
-import { DataTable } from './components/DataTable.js';
-import { DataProcessor } from './services/DataProcessor.js';
 
 class LeadDialer {
     constructor() {
@@ -116,27 +111,24 @@ class LeadDialer {
 
     async handleFileUpload(file) {
         if (!file || !file.name.endsWith('.json')) {
-            Help
-        async handleFileUpload(file) {
-            if (!file || !file.name.endsWith('.json')) {
-                Helpers.showToast('Please select a valid JSON file', 'error');
-                return;
-            }
-
-            try {
-                const text = await file.text();
-                const data = JSON.parse(text);
-                
-                if (!Array.isArray(data)) {
-                    throw new Error('JSON must be an array of objects');
-                }
-
-                this.processImportedData(data);
-                Helpers.showToast(`Successfully imported ${data.length} records`);
-            } catch (error) {
-                Helpers.showToast('Error parsing JSON file: ' + error.message, 'error');
-            }
+            Helpers.showToast('Please select a valid JSON file', 'error');
+            return;
         }
+
+        try {
+            const text = await file.text();
+            const data = JSON.parse(text);
+
+            if (!Array.isArray(data)) {
+                throw new Error('JSON must be an array of objects');
+            }
+
+            this.processImportedData(data);
+            Helpers.showToast(`Successfully imported ${data.length} records`);
+        } catch (error) {
+            Helpers.showToast('Error parsing JSON file: ' + error.message, 'error');
+        }
+    }
 
         processImportedData(data) {
             this.clients = DataProcessor.processImportedData(data, this.phoneDuplicates);
@@ -304,4 +296,3 @@ class LeadDialer {
     // Initialize the application
     const app = new LeadDialer();
     window.app = app;
-</script>
