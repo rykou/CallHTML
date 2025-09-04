@@ -2,13 +2,30 @@
   "name": "lead-dialer",
   "version": "1.0.0",
   "description": "Lead Dialer & Filter application",
-  "main": "index.html",
+  "main": "main.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build && node scripts/copyStatic.js",
+    "preview": "vite preview",
+    "electron": "npm run build && electron .",
+    "build:win": "npm run build && electron-builder --win"
   },
   "devDependencies": {
-    "vite": "^4.4.0"
+    "vite": "^4.4.0",
+    "electron": "^25.9.0",
+    "electron-builder": "^24.6.3"
+  },
+  "build": {
+    "appId": "com.leaddialer.app",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js"
+    ],
+    "win": {
+      "target": "nsis"
+    }
   }
 }

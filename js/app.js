@@ -1,8 +1,3 @@
-import { Helpers } from './utils/helpers.js';
-import { StorageManager } from './utils/storage.js';
-import { ClientCard } from './components/ClientCard.js';
-import { DataTable } from './components/DataTable.js';
-import { DataProcessor } from './services/DataProcessor.js';
 
 class LeadDialer {
     constructor() {
@@ -85,6 +80,13 @@ class LeadDialer {
         document.getElementById('exportLeadsCSV').addEventListener('click', () => this.exportData('leads', 'csv'));
         document.getElementById('exportLeadsJSON').addEventListener('click', () => this.exportData('leads', 'json'));
 
+        // Clear data
+        document.getElementById('clearDataBtn').addEventListener('click', () => {
+            if (confirm('Clear all stored data?')) {
+                this.clearAllData();
+            }
+        });
+
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -116,27 +118,24 @@ class LeadDialer {
 
     async handleFileUpload(file) {
         if (!file || !file.name.endsWith('.json')) {
-            Help
-        async handleFileUpload(file) {
-            if (!file || !file.name.endsWith('.json')) {
-                Helpers.showToast('Please select a valid JSON file', 'error');
-                return;
-            }
-
-            try {
-                const text = await file.text();
-                const data = JSON.parse(text);
-                
-                if (!Array.isArray(data)) {
-                    throw new Error('JSON must be an array of objects');
-                }
-
-                this.processImportedData(data);
-                Helpers.showToast(`Successfully imported ${data.length} records`);
-            } catch (error) {
-                Helpers.showToast('Error parsing JSON file: ' + error.message, 'error');
-            }
+            Helpers.showToast('Please select a valid JSON file', 'error');
+            return;
         }
+
+        try {
+            const text = await file.text();
+            const data = JSON.parse(text);
+
+            if (!Array.isArray(data)) {
+                throw new Error('JSON must be an array of objects');
+            }
+
+            this.processImportedData(data);
+            Helpers.showToast(`Successfully imported ${data.length} records`);
+        } catch (error) {
+            Helpers.showToast('Error parsing JSON file: ' + error.message, 'error');
+        }
+    }
 
         processImportedData(data) {
             this.clients = DataProcessor.processImportedData(data, this.phoneDuplicates);
@@ -258,6 +257,34 @@ class LeadDialer {
             }
         }
 
+        copyPhone() {
+            if (this.filteredClients.length === 0) return;
+            const client = this.filteredClients[this.currentClientIndex];
+            if (client.phone) {
+                Helpers.copyToClipboard(client.phone);
+            }
+        }
+
+        clearAllData() {
+            StorageManager.clearData();
+            this.clients = [];
+            this.filteredClients = [];
+            this.phoneDuplicates = new Map();
+            this.currentFilter = 'all';
+            this.currentSearch = '';
+            this.currentPage = 1;
+            this.currentClientIndex = 0;
+
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            document.querySelector('.chip[data-filter="all"]').classList.add('active');
+
+            this.clientCard.clear();
+            this.dataTable.clear();
+            this.updateStats();
+            Helpers.showToast('All data cleared');
+        }
+
         exportData(type, format) {
             let dataToExport;
             
@@ -304,4 +331,3 @@ class LeadDialer {
     // Initialize the application
     const app = new LeadDialer();
     window.app = app;
-</script>

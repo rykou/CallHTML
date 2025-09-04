@@ -1,4 +1,4 @@
-export class Helpers {
+class Helpers {
     static escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
@@ -47,5 +47,19 @@ export class Helpers {
         setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
+    }
+
+    static async copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch (err) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+        this.showToast('Phone number copied');
     }
 }

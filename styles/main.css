@@ -281,6 +281,12 @@ body {
     word-break: break-all;
 }
 
+.copy-phone-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
 .no-phone {
     font-size: 24px;
     color: var(--gray-400);
