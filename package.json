@@ -5,7 +5,11 @@
   "main": "main.js",
   "scripts": {
     "dev": "vite",
+ codex/fix-cors-errors-for-local-html-file-zxrpsy
     "build": "vite build && node scripts/copyStatic.js",
+=======
+    "build": "vite build",
+ main
     "preview": "vite preview",
     "electron": "npm run build && electron .",
     "build:win": "npm run build && electron-builder --win"
