@@ -17,7 +17,10 @@ docker run -p 8080:80 callhtml
 
 Then visit [http://localhost:8080](http://localhost:8080) in your browser.
 
+ codex/fix-cors-errors-for-local-html-file-zxrpsy
+=======
 
+ main
 ## Desktop App
 
 To preview the app as a desktop application using Electron:
@@ -33,5 +36,8 @@ npm run build:win
 ```
 
 Building for Windows from macOS or Linux requires [Wine](https://www.winehq.org/) to be installed.
+codex/fix-cors-errors-for-local-html-file-zxrpsy
+=======
 =======
 
+main
