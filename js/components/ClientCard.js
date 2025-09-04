@@ -13,7 +13,9 @@ class ClientCard {
         this.element.innerHTML = `
             <div class="client-info">
                 <div class="phone-number">
-                    ${client.phone ? client.phone : '<span class="no-phone">No phone number</span>'}
+                    ${client.phone
+                        ? `${Helpers.escapeHtml(client.phone)} <button class="btn btn-outline copy-phone-btn" onclick="app.copyPhone()">Copy</button>`
+                        : '<span class="no-phone">No phone number</span>'}
                     ${isDuplicate ? '<span class="duplicate-warning">Duplicate</span>' : ''}
                 </div>
                 <div class="client-name">${Helpers.escapeHtml(client.name)}</div>

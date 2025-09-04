@@ -80,6 +80,13 @@ class LeadDialer {
         document.getElementById('exportLeadsCSV').addEventListener('click', () => this.exportData('leads', 'csv'));
         document.getElementById('exportLeadsJSON').addEventListener('click', () => this.exportData('leads', 'json'));
 
+        // Clear data
+        document.getElementById('clearDataBtn').addEventListener('click', () => {
+            if (confirm('Clear all stored data?')) {
+                this.clearAllData();
+            }
+        });
+
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -248,6 +255,34 @@ class LeadDialer {
                 this.currentClientIndex = index;
                 this.renderCurrentClient();
             }
+        }
+
+        copyPhone() {
+            if (this.filteredClients.length === 0) return;
+            const client = this.filteredClients[this.currentClientIndex];
+            if (client.phone) {
+                Helpers.copyToClipboard(client.phone);
+            }
+        }
+
+        clearAllData() {
+            StorageManager.clearData();
+            this.clients = [];
+            this.filteredClients = [];
+            this.phoneDuplicates = new Map();
+            this.currentFilter = 'all';
+            this.currentSearch = '';
+            this.currentPage = 1;
+            this.currentClientIndex = 0;
+
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            document.querySelector('.chip[data-filter="all"]').classList.add('active');
+
+            this.clientCard.clear();
+            this.dataTable.clear();
+            this.updateStats();
+            Helpers.showToast('All data cleared');
         }
 
         exportData(type, format) {
