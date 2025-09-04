@@ -1,6 +1,4 @@
-import { Helpers } from '../utils/helpers.js';
-
-export class ClientCard {
+class ClientCard {
     constructor(app) {
         this.app = app;
         this.element = document.getElementById('clientCard');

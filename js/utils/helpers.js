@@ -1,4 +1,4 @@
-export class Helpers {
+class Helpers {
     static escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
