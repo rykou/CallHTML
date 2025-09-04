@@ -1,4 +1,4 @@
-export class StorageManager {
+class StorageManager {
     static STORAGE_KEY = 'leadDialerData';
 
     static saveData(clients, phoneDuplicates) {
